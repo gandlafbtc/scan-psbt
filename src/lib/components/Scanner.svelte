@@ -7,6 +7,7 @@
     import Button from './ui/button/button.svelte';
     import Textarea from './ui/textarea/textarea.svelte';
 	import {  bytesToHex } from "@noble/hashes/utils";
+    import { downloadTextAsFile } from './dl';
 
 	let videoElem: HTMLVideoElement | undefined = $state();
 	let qrScanner: QrScanner | undefined = $state();
@@ -132,7 +133,14 @@
 	{:else}
 	<div class="flex gap-2 flex-col w-80 xl:w-[600px]">
 		<Textarea bind:value={scanned} placeholder="Type your message here." />
-		<Button onclick={()=>scanned=""}>
+		
+		<Button onclick={()=> {
+			downloadTextAsFile(scanned, 'psbt.psbt')
+		}}>
+			Download file
+		</Button>
+
+		<Button variant='outline' onclick={()=>scanned=""}>
 			scan again
 		</Button>
 	</div>
