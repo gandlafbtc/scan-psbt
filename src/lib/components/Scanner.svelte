@@ -6,6 +6,7 @@
 	import { URDecoder } from '@gandlaf21/bc-ur';
     import Button from './ui/button/button.svelte';
     import Textarea from './ui/textarea/textarea.svelte';
+	import {  bytesToHex } from "@noble/hashes/utils";
 
 	let videoElem: HTMLVideoElement | undefined = $state();
 	let qrScanner: QrScanner | undefined = $state();
@@ -19,7 +20,7 @@
 
 	let decoder: URDecoder;
 
-	let scanned = $state("asdf");
+	let scanned = $state("");
 
 	onMount(async () => {
 		decoder = new URDecoder();
@@ -74,7 +75,7 @@
 			}
 			const ur = decoder.resultUR();
 			const decoded = ur.decodeCBOR();
-			const scannedToken = decoded.toString();
+			const scannedToken = bytesToHex(decoded);
 			scanComplete(scannedToken);
 	};
 
